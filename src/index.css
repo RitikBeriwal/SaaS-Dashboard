@@ -1,0 +1,70 @@
+/* Load all of Tailwind's utility classes (Tailwind CSS v4 syntax) */
+@import "tailwindcss";
+
+/* Class-based dark mode: when <html> has the "dark" class, every dark:... class turns on */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Use the Inter font (loaded in index.html) as the default font */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Chart colors. Recharts draws SVG elements, so we theme them with CSS variables. */
+:root {
+  --chart-grid: #eef0f4;
+  --chart-text: #9ca3af;
+  --chart-cursor: #f3f4ff;
+  --tooltip-bg: #ffffff;
+  --tooltip-border: #e5e7eb;
+  --tooltip-text: #111827;
+}
+
+.dark {
+  color-scheme: dark;
+  --chart-grid: #1f2937;
+  --chart-text: #6b7280;
+  --chart-cursor: rgba(99, 102, 241, 0.08);
+  --tooltip-bg: #111827;
+  --tooltip-border: #374151;
+  --tooltip-text: #f9fafb;
+}
+
+body {
+  @apply bg-gray-50 font-sans text-gray-700 antialiased dark:bg-gray-950 dark:text-gray-300;
+}
+
+/* ---------- Reusable classes ---------- */
+
+/* White rounded card used for every panel in the app */
+@utility card {
+  @apply rounded-2xl border border-gray-200/80 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900;
+}
+
+/* Shared style for text inputs and selects */
+@utility input-field {
+  @apply rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500;
+}
+
+/* ---------- Recharts theme ---------- */
+/* Plain CSS overrides the default gray colors Recharts sets on its SVG elements */
+.recharts-cartesian-grid line {
+  stroke: var(--chart-grid);
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: var(--chart-text);
+}
+
+.recharts-rectangle.recharts-tooltip-cursor {
+  fill: var(--chart-cursor);
+}
+
+.recharts-curve.recharts-tooltip-cursor {
+  stroke: var(--chart-grid);
+}
+
+/* Remove the focus outline Recharts adds to the chart when it is clicked */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
